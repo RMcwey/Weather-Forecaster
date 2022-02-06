@@ -1,0 +1,44 @@
+body {
+    text-align: center;
+}
+
+.container {
+    border: solid 3px black;
+}
+
+.container-fluid {
+    border: solid 3px black;
+}
+
+h1 {
+    background-image: linear-gradient(to left, purple , blue, lightblue);
+    color: blanchedalmond;
+}
+
+.search-area {
+    height: 90vh;
+    display: inline-flex;
+    flex-direction: column;
+}
+
+.search-area h2 {
+    text-align: start;
+}
+
+#search {
+    text-align: center;
+    margin: 4px;
+}
+
+#search-btn {
+    text-align: center;
+    border: solid black 1px;
+    border-radius: 20px;
+    background-image: linear-gradient(to left, blue, lightblue);
+    margin: 7px;
+
+}
+
+.prior-searches {
+    border: solid black 1px;
+}
