@@ -1,6 +1,6 @@
-body {
+/* body {
     text-align: center;
-}
+} */
 
 .container {
     border: solid 3px black;
@@ -11,8 +11,13 @@ body {
 }
 
 h1 {
+    text-align: center;
     background-image: linear-gradient(to left, purple , blue, lightblue);
     color: blanchedalmond;
+}
+
+h2 {
+    text-align: start;
 }
 
 .search-area {
@@ -25,20 +30,48 @@ h1 {
     text-align: start;
 }
 
-#search {
+.search {
     text-align: center;
-    margin: 4px;
+    margin: 8px;
+    padding: 5px 48px;
 }
 
 #search-btn {
     text-align: center;
     border: solid black 1px;
-    border-radius: 20px;
     background-image: linear-gradient(to left, blue, lightblue);
-    margin: 7px;
-
+    padding: 5px 117px;
+    margin: 8px;
+    /* width: 100%; */
 }
 
 .prior-searches {
+    display: flex;
+    flex-direction: column;
     border: solid black 1px;
+    width: 95%;
+    /* margin: 10px;
+    padding: 10px; */
+}
+
+.prior-search-items {
+    padding: 5px;
+
+}
+
+.current-weather {
+    /* display: flex; */
+    text-align: start;
+}
+
+.col-4 {
+    padding-left: 0;
+}
+/* 
+.card {
+
+} */
+
+footer {
+    text-align: center;
 }
