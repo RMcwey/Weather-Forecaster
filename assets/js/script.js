@@ -88,12 +88,22 @@ function applyCurrentDayData(fetchedCurrentData) {
     // console.log(fetchedData.name);
     cityH4.textContent = searchInput;
     console.log(fetchedCurrentData.current.temp)
-    // tempFetch = fetchedData.main.temp
+
+    var uviData = fetchedCurrentData.current.uvi
     currentTemp[0].innerHTML = "Temp: " + fetchedCurrentData.current.temp + "°F";
     currentTemp[1].innerHTML = "Wind: " + fetchedCurrentData.current.wind_speed + " MPH";
     currentTemp[2].innerHTML = "Humidity: " + fetchedCurrentData.current.humidity + " %";
-    uvi.innerHTML = fetchedCurrentData.current.uvi;
+    uvi.innerHTML = uviData ;
 
+    if (uviData < 3) {
+        uvi.classList.add("uv-green");
+    } else if (uviData < 6) {
+        uvi.classList.add("uv-yellow")
+    } else if (uviData < 8) {
+        uvi.classList.add("uv-orange")
+    } else {
+        uvi.classList.add("uv-red")
+    }
     // if for colors changeing class of span
     // for uvi, just have and empty box with all css properties to input to.
     // if then statment using greater than and such with classes to add to uviEL to change color.
