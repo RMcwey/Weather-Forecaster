@@ -26,28 +26,48 @@
 
 // results 5 days
 // function add 5 days results
+
+// `http://api.openweathermap.org/geo/1.0/direct?q=${city},${state},{US}&limit={limit}&appid=925aacac62e7fb2f553876f1d65a3104` 5 day limit 5
 var inputBox = $('input')
 var searchButton = $('#search-btn')
 var searchInput;
-var requestUrl = `https://api.openweathermap.org/data/2.5/weather?q=${searchInput}&appid=925aacac62e7fb2f553876f1d65a3104`
+var requestUrl = `https://api.openweathermap.org/data/2.5/weather?q=${searchInput}&units=imperial&appid=925aacac62e7fb2f553876f1d65a3104`
 var fetchedData;
 var cityH4 = document.querySelector('h4');
 var currentTemp = document.querySelectorAll('p');
+var latitude;
+var longitude;
 
 
 function searchInputField () {
+    inputBox = 
     searchInput = document.querySelector('input').value;
-    requestUrl = `https://api.openweathermap.org/data/2.5/weather?q=${searchInput}&units=imperial&appid=925aacac62e7fb2f553876f1d65a3104`
-    fetch(requestUrl)
+    var splitWords = searchInput.split(" ");
+    console.log(splitWords)
+    var city = splitWords[0].replace(/,/g, '');
+    var state = splitWords[1];
+    console.log(city);
+    console.log(state);
+    requestUrlLatLon = `http://api.openweathermap.org/geo/1.0/direct?q=${city},${state},{US}&appid=925aacac62e7fb2f553876f1d65a3104`;
+
+    fetch(requestUrlLatLon)
     .then(function (response) {
         return response.json();
     })
     .then(function (data) {
         fetchedData = data
         console.log(data);
-        currentDayData(fetchedData)
+        latlonFunc(fetchedData)
     });
-    // could be fetchedData
+
+}
+
+function latlonFunc (fetchedData) {
+latitude = fetchedData[0].lat
+    console.log(latitude)
+longitude = fetchedData[0].lon
+    console.log(longitude)
+
 }
 
 function currentDayData(fetchedData) {
@@ -65,8 +85,32 @@ function currentDayData(fetchedData) {
 
 searchButton.on('click', function () {
     searchInputField();
-    console.log(inputBox.val())
+    // console.log(inputBox.val())
 });
+
+
+    // var latitude = searchInput.coord.lat
+    // var longitude = searchInput.coord.lon
+
+    // console.log(latitude)
+    // city.substring(0, city.length - 1);
+    // if (city.indexOf(',') > -1) {
+    //     var city1 = city.substring
+    //     console.log(city1)
+    // }
+   
+   
+    // fetch(requestUrl)
+    // .then(function (response) {
+    //     return response.json();
+    // })
+    // .then(function (data) {
+    //     fetchedData = data
+    //     console.log(data);
+    //     currentDayData(fetchedData)
+    // });
+    // could be fetchedData
+
 // weather[0].current
 
 // $( function() {
