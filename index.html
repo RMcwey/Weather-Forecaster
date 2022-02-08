@@ -20,28 +20,53 @@
       <div class="container-fluid vw-100 d-flex justify-content-center" >
         <div class="search-area col-4 align-items-start">
           <h2>Search for a City: </h2>
-          <input type="text" id="tags" class="search" name="search" placeholder="Atlanta">
+          <input type="text" id="tags" class="search" name="search" placeholder="Atlanta, GA">
           <button id="search-btn" class="btn">Search</button>
 
           <div class="prior-searches">
             <button class="prior-search-items">test 1</button>
           </div>
         </div>
-        <div class="report-area container row col-8">
+        <div class="report-area container col-8">
           <div class="current-weather containter col-12 flex-column align-content-start">
             <h4>City: </h4>
             <p class="temp">Temp: </p>
             <p class="wind">Wind: </p>
             <p class="humidity">Humidity: </p>
-            <p class="uvIndex">UV Index: </p>
+            <p class="uvIndex">UV Index: <span class="uv-span uv-green">0.00</span></p>
           </div>
           <h3>5-Day Forecast: </h3>
-          <div class="5day-cards container d-flex">
-            <div class="card day1">1</div>
-            <div class="card day2">2</div>
-            <div class="card day3">3</div>
-            <div class="card day4">4</div>
-            <div class="card day5">5</div>
+          <div class="five-day-cards">
+            <div class="card day1 col">
+              <h6>02/08/2022</h6>
+              <p>Temp: </p>
+              <p>Wind: </p>
+              <p>Humidity: </p>
+            </div>
+            <div class="card day2 col">
+              <h6>02/08/2022</h6>
+              <p>Temp: </p>
+              <p>Wind: </p>
+              <p>Humidity: </p>
+            </div>
+            <div class="card day3 col"> 
+              <h6>02/08/2022</h6>
+              <p>Temp: </p>
+              <p>Wind: </p>
+              <p>Humidity: </p>
+            </div>
+            <div class="card day4 col">
+              <h6>02/08/2022</h6>
+              <p>Temp: </p>
+              <p>Wind: </p>
+              <p>Humidity: </p>
+            </div>
+            <div class="card day5 col">
+              <h6>02/08/2022</h6>
+              <p>Temp: </p>
+              <p>Wind: </p>
+              <p>Humidity: </p>
+            </div>
           </div>
         </div>
       </div>

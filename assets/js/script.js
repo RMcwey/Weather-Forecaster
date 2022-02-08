@@ -35,6 +35,7 @@ var requestUrl = `https://api.openweathermap.org/data/2.5/weather?q=${searchInpu
 var fetchedData;
 var cityH4 = document.querySelector('h4');
 var currentTemp = document.querySelectorAll('p');
+var uvi = document.querySelector('span');
 var latitude;
 var longitude;
 
@@ -42,13 +43,13 @@ var longitude;
 function searchInputField () {
     inputBox = 
     searchInput = document.querySelector('input').value;
-    var splitWords = searchInput.split(" ");
+    var splitWords = searchInput.split(",");
     console.log(splitWords)
     var city = splitWords[0].replace(/,/g, '');
     var state = splitWords[1];
     console.log(city);
     console.log(state);
-    requestUrlLatLon = `http://api.openweathermap.org/geo/1.0/direct?q=${city},${state},{US}&appid=925aacac62e7fb2f553876f1d65a3104`;
+    requestUrlLatLon = `https://api.openweathermap.org/geo/1.0/direct?q=${city},${state},{US}&appid=925aacac62e7fb2f553876f1d65a3104`;
 
     fetch(requestUrlLatLon)
     .then(function (response) {
@@ -63,22 +64,41 @@ function searchInputField () {
 }
 
 function latlonFunc (fetchedData) {
-latitude = fetchedData[0].lat
+    latitude = fetchedData[0].lat
     console.log(latitude)
-longitude = fetchedData[0].lon
+    longitude = fetchedData[0].lon
     console.log(longitude)
-
+    getCurrentDayData();
 }
 
-function currentDayData(fetchedData) {
-    console.log(fetchedData.name);
-    cityH4.textContent = fetchedData.name;
-    console.log(fetchedData.main.temp)
+function getCurrentDayData () {
+    requestUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&units=imperial&appid=925aacac62e7fb2f553876f1d65a3104`
+    fetch(requestUrl)
+    .then(function (response) {
+        return response.json();
+    })
+    .then(function (data) {
+        fetchedCurrentData = data
+        console.log(data);
+        applyCurrentDayData(fetchedCurrentData)
+    });
+}
+
+function applyCurrentDayData(fetchedCurrentData) {
+    // console.log(fetchedData.name);
+    cityH4.textContent = searchInput;
+    console.log(fetchedCurrentData.current.temp)
     // tempFetch = fetchedData.main.temp
-    currentTemp[0].innerHTML = "Temp: " + fetchedData.main.temp + "°F";
-    currentTemp[1].innerHTML = "Wind: " + fetchedData.wind.speed + " MPH";
-    currentTemp[2].innerHTML = "Humidity: " + fetchedData.main.humidity + " %";
-    
+    currentTemp[0].innerHTML = "Temp: " + fetchedCurrentData.current.temp + "°F";
+    currentTemp[1].innerHTML = "Wind: " + fetchedCurrentData.current.wind_speed + " MPH";
+    currentTemp[2].innerHTML = "Humidity: " + fetchedCurrentData.current.humidity + " %";
+    uvi.innerHTML = fetchedCurrentData.current.uvi;
+
+    // if for colors changeing class of span
+    // for uvi, just have and empty box with all css properties to input to.
+    // if then statment using greater than and such with classes to add to uviEL to change color.
+    // look up uvi danger zones and info
+    // mess with opacity in css for a background color for better visibility.
 
 }
 
