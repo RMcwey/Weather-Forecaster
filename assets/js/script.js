@@ -1,33 +1,3 @@
-
-// Search
-// funtion: event handler
-// 1. Read the value from the textbox into a variable
-// 2. Create Url for Fetch
-// 3. Fetch results
-// 4. Call Function to update after results
-
-// Function: DoResults
-// 1. Call function Add search term to results
-// 2. Call function add today's results
-// 3. Call funtion Add 5 days results
-// 4. Clear out the text box
-
-// Recent Searches
-// Function: Add searchterm to results
-// Parameter In: Search Term
-// 1. add a button to the screen, with a data attribute that stores the search term (local storage)
-
-// function: Event Handler (for search buttons)
-// 1. Read the data attribute to get the search term.
-// 2. Call search Function
-
-// Results Today
-// Function add today's results
-
-// results 5 days
-// function add 5 days results
-
-// `http://api.openweathermap.org/geo/1.0/direct?q=${city},${state},{US}&limit={limit}&appid=925aacac62e7fb2f553876f1d65a3104` 5 day limit 5
 var inputBox = $('input')
 var searchButton = $('#search-btn')
 var searchInput;
@@ -41,7 +11,9 @@ var forecastCards;
 var latitude;
 var longitude;
 var ClickCount = 1;
+var searchItem = 0;
 
+loadSaved();
 
 function searchInputField () {
     inputBox = 
@@ -127,16 +99,18 @@ function applyCurrentDayData(fetchedCurrentData) {
         let tempMin = day.temp.min;
         let forecastWind = day.wind_speed;
         let forecastHumidity = day.humidity;
-        foreCast.push({humanDateFormatDay, tempMax, tempMin, forecastWind, forecastHumidity})
+        let cardNum = i;
+        console.log(cardNum)
+        foreCast.push({humanDateFormatDay, tempMax, tempMin, forecastWind, forecastHumidity, cardNum})
     } 
     renderForecast(foreCast)
 };
     function renderForecast(foreCast) {
-        foreCast.forEach(function({humanDateFormatDay, tempMax, tempMin, forecastWind, forecastHumidity}) {
+        foreCast.forEach(function({humanDateFormatDay, tempMax, tempMin, forecastWind, forecastHumidity, cardNum}) {
         // var fiveDayCards = $('#five-day-cards');
         
         const forecastCards = 
-        $(`<div class="card col">
+        $(`<div class="card card${cardNum} col">
               <h6>${humanDateFormatDay}</h6>
               <p>High: ${tempMax}</p>
               <p>Low: ${tempMin}</p>
@@ -161,14 +135,208 @@ function applyCurrentDayData(fetchedCurrentData) {
     }
 
 function storeInput () {
-    var priorSearches = $('#prior-searches');
-    var priorSearchesButton = $(`<button class="prior-search-items">${searchInput}</button>`);
-    priorSearches.append(priorSearchesButton);
-    localStorage.setItem("searches", searchInput);
-    // var items = items.slice(0, 4);
-    // for (let i = 1; i < 6; i++)
+    var search1 = localStorage.getItem('search1');
+    var search2 = localStorage.getItem('search2');
+    var search3 = localStorage.getItem('search3');
+    var search4 = localStorage.getItem('search4');
+    var search5 = localStorage.getItem('search5');
+    var search6 = localStorage.getItem('search6');
+    var search7 = localStorage.getItem('search7');
+    var search8 = localStorage.getItem('search8');
+    var search9 = localStorage.getItem('search9');
+    var search10 = localStorage.getItem('search10');
+
+    if (search1 == null){
+        
+        searchItem++;
+        var priorSearches = $('#prior-searches');
+        var priorSearchesButton = $(`<button class="prior-search-items" id="search${searchItem}">${searchInput}</button>`);
+        
+        priorSearches.append(priorSearchesButton);
+    } else if (search2 == null) {
+        searchItem = 1;
+        searchItem++;
+        var priorSearches = $('#prior-searches');
+        var priorSearchesButton = $(`<button class="prior-search-items" id="search${searchItem}">${searchInput}</button>`);
     
+        priorSearches.append(priorSearchesButton);
+    } else if (search3 == null) {
+        searchItem = 2;
+        searchItem++;
+        var priorSearches = $('#prior-searches');
+        var priorSearchesButton = $(`<button class="prior-search-items" id="search${searchItem}">${searchInput}</button>`);
+    
+        priorSearches.append(priorSearchesButton);
+    } else if (search4 == null) {
+        searchItem = 3;
+        searchItem++;
+        var priorSearches = $('#prior-searches');
+        var priorSearchesButton = $(`<button class="prior-search-items" id="search${searchItem}">${searchInput}</button>`);
+    
+        priorSearches.append(priorSearchesButton); 
+    } else if (search5 == null) {
+        searchItem = 4;
+        searchItem++;
+        var priorSearches = $('#prior-searches');
+        var priorSearchesButton = $(`<button class="prior-search-items" id="search${searchItem}">${searchInput}</button>`);
+    
+        priorSearches.append(priorSearchesButton); 
+    } else if (search6 == null) {
+        searchItem = 5;
+        searchItem++;
+        var priorSearches = $('#prior-searches');
+        var priorSearchesButton = $(`<button class="prior-search-items" id="search${searchItem}">${searchInput}</button>`);
+    
+        priorSearches.append(priorSearchesButton); 
+    } else if (search7 == null) {
+        searchItem = 6;
+        searchItem++;
+        var priorSearches = $('#prior-searches');
+        var priorSearchesButton = $(`<button class="prior-search-items" id="search${searchItem}">${searchInput}</button>`);
+    
+        priorSearches.append(priorSearchesButton); 
+    } else if (search8 == null) {
+        searchItem = 7;
+        searchItem++;
+        var priorSearches = $('#prior-searches');
+        var priorSearchesButton = $(`<button class="prior-search-items" id="search${searchItem}">${searchInput}</button>`);
+    
+        priorSearches.append(priorSearchesButton); 
+    } else if (search9 == null) {
+        searchItem = 8;
+        searchItem++;
+        var priorSearches = $('#prior-searches');
+        var priorSearchesButton = $(`<button class="prior-search-items" id="search${searchItem}">${searchInput}</button>`);
+    
+        priorSearches.append(priorSearchesButton); 
+    } else if (search10 == null) {
+        searchItem = 9;
+        searchItem++;
+        var priorSearches = $('#prior-searches');
+        var priorSearchesButton = $(`<button class="prior-search-items" id="search${searchItem}">${searchInput}</button>`);
+    
+        priorSearches.append(priorSearchesButton); 
+    } else {
+        return
+    };
+    acutalStoreInput();
 };
+
+function acutalStoreInput () {
+    var searchItemClass1 = document.getElementById('search1')
+    var searchItemClass2 = document.getElementById('search2')
+    var searchItemClass3 = document.getElementById('search3')
+    var searchItemClass4 = document.getElementById('search4')
+    var searchItemClass5 = document.getElementById('search5')
+    var searchItemClass6 = document.getElementById('search6')
+    var searchItemClass7 = document.getElementById('search7')
+    var searchItemClass8 = document.getElementById('search8')
+    var searchItemClass9 = document.getElementById('search9')
+    var searchItemClass10 = document.getElementById('search10')
+    localStorage.setItem("search1", searchItemClass1.innerText);
+    localStorage.setItem("search2", searchItemClass2.innerText);
+    localStorage.setItem("search3", searchItemClass3.innerText);
+    localStorage.setItem("search4", searchItemClass4.innerText);
+    localStorage.setItem("search5", searchItemClass5.innerText);
+    localStorage.setItem("search6", searchItemClass6.innerText);
+    localStorage.setItem("search7", searchItemClass7.innerText);
+    localStorage.setItem("search8", searchItemClass8.innerText);
+    localStorage.setItem("search9", searchItemClass9.innerText);
+    localStorage.setItem("search10", searchItemClass10.innerText);
+
+};
+
+function loadSaved () {
+    var priorSearches = $('#prior-searches');
+    search1 = localStorage.getItem('search1')
+    search2 = localStorage.getItem('search2');
+    search3 = localStorage.getItem('search3');
+    search4 = localStorage.getItem('search4');
+    search5 = localStorage.getItem('search5');
+    search6 = localStorage.getItem('search6');
+    search7 = localStorage.getItem('search7');
+    search8 = localStorage.getItem('search8');
+    search9 = localStorage.getItem('search9');
+    search10 = localStorage.getItem('search10');
+
+    if (search1 !== null){
+        // var search1Key = localStorage.key('search1')
+    var priorSearchesButton = $(`<button class="prior-search-items" id="search1">${search1}</button>`);
+    priorSearches.append(priorSearchesButton);
+    };
+
+    if (search2 !== null){
+        // var search2Key = localStorage.key('search2')
+        var priorSearchesButton = $(`<button class="prior-search-items" id="search2">${search2}</button>`);
+        priorSearches.append(priorSearchesButton);
+    };
+
+    if (search3 !== null){
+        // var search2Key = localStorage.key('search2')
+        var priorSearchesButton = $(`<button class="prior-search-items" id="search3">${search3}</button>`);
+        priorSearches.append(priorSearchesButton);
+    };
+
+    if (search4 !== null){
+        // var search2Key = localStorage.key('search2')
+        var priorSearchesButton = $(`<button class="prior-search-items" id="search4">${search4}</button>`);
+        priorSearches.append(priorSearchesButton);
+    };
+
+    if (search5 !== null){
+        // var search2Key = localStorage.key('search2')
+        var priorSearchesButton = $(`<button class="prior-search-items" id="search5">${search5}</button>`);
+        priorSearches.append(priorSearchesButton);
+    };
+
+    if (search6 !== null){
+        // var search2Key = localStorage.key('search2')
+        var priorSearchesButton = $(`<button class="prior-search-items" id="search6">${search6}</button>`);
+        priorSearches.append(priorSearchesButton);
+    };
+
+    if (search7 !== null){
+        // var search2Key = localStorage.key('search2')
+        var priorSearchesButton = $(`<button class="prior-search-items" id="search7">${search7}</button>`);
+        priorSearches.append(priorSearchesButton);
+    };
+
+    if (search8 !== null){
+        // var search2Key = localStorage.key('search2')
+        var priorSearchesButton = $(`<button class="prior-search-items" id="search8">${search8}</button>`);
+        priorSearches.append(priorSearchesButton);
+    };
+
+    if (search9 !== null){
+        // var search2Key = localStorage.key('search2')
+        var priorSearchesButton = $(`<button class="prior-search-items" id="search9">${search9}</button>`);
+        priorSearches.append(priorSearchesButton);
+    };
+
+    if (search10 !== null){
+        // var search2Key = localStorage.key('search2')
+        var priorSearchesButton = $(`<button class="prior-search-items" id="search10">${search10}</button>`);
+        priorSearches.append(priorSearchesButton);
+    } else {
+        return
+    };
+
+    // for (var i = 0; i < localStorage.length; i++) {
+    //     console.log(localStorage.getItem(localStorage.key(i)));
+    //   }
+    // // var search1Val = localStorage.getItem('search1').value;
+
+    
+
+    // document.getElementById('9AM').textContent = localStorage.getItem('text1');
+    // if ('text1' == null) {
+    //   document.getElementById('9AM').textContent = null;
+    // }
+};
+
+
+// function getStoredInput
+// taking local storage and creating an if statement.
 
 searchButton.on('click', function () {
     searchInputField();
