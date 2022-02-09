@@ -36,8 +36,11 @@ var fetchedData;
 var cityH4 = document.querySelector('h4');
 var currentTemp = document.querySelectorAll('p');
 var uvi = document.querySelector('span');
+var fiveDayCards = $('#five-day-cards');
+var forecastCards;
 var latitude;
 var longitude;
+var ClickCount = 1;
 
 
 function searchInputField () {
@@ -61,7 +64,7 @@ function searchInputField () {
         latlonFunc(fetchedData)
     });
 
-}
+};
 
 function latlonFunc (fetchedData) {
     latitude = fetchedData[0].lat
@@ -69,7 +72,7 @@ function latlonFunc (fetchedData) {
     longitude = fetchedData[0].lon
     console.log(longitude)
     getCurrentDayData();
-}
+};
 
 function getCurrentDayData () {
     requestUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&units=imperial&appid=925aacac62e7fb2f553876f1d65a3104`
@@ -82,13 +85,21 @@ function getCurrentDayData () {
         console.log(data);
         applyCurrentDayData(fetchedCurrentData)
     });
-}
+};
 
 function applyCurrentDayData(fetchedCurrentData) {
-    // console.log(fetchedData.name);
-    cityH4.textContent = searchInput;
-    console.log(fetchedCurrentData.current.temp)
+    // converts unix date given by api into mm/dd/yyyy 
 
+    const unixTimestamp = fetchedCurrentData.current.dt
+    console.log(unixTimestamp)
+    const event = new Date(unixTimestamp * 1000);
+    console.log(event)
+    const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
+    const humanDateFormat = event.toLocaleDateString(options)
+
+    console.log(humanDateFormat)
+    cityH4.textContent = "Current Weather: " + searchInput + " " + humanDateFormat;
+    // fetchedCurrentData.current.dt (1644363812)
     var uviData = fetchedCurrentData.current.uvi
     currentTemp[0].innerHTML = "Temp: " + fetchedCurrentData.current.temp + "°F";
     currentTemp[1].innerHTML = "Wind: " + fetchedCurrentData.current.wind_speed + " MPH";
@@ -104,44 +115,70 @@ function applyCurrentDayData(fetchedCurrentData) {
     } else {
         uvi.classList.add("uv-red")
     }
-    // if for colors changeing class of span
-    // for uvi, just have and empty box with all css properties to input to.
-    // if then statment using greater than and such with classes to add to uviEL to change color.
-    // look up uvi danger zones and info
-    // mess with opacity in css for a background color for better visibility.
 
-}
+    let foreCast = []
+    for (let i = 1; i < 6; i++) {
+        let day = fetchedCurrentData.daily[i];
+        let forecastDay = day.dt;
+        const forecastDate = new Date(forecastDay * 1000);
+        const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
+        let humanDateFormatDay = forecastDate.toLocaleDateString(options);
+        let tempMax = day.temp.max;
+        let tempMin = day.temp.min;
+        let forecastWind = day.wind_speed;
+        let forecastHumidity = day.humidity;
+        foreCast.push({humanDateFormatDay, tempMax, tempMin, forecastWind, forecastHumidity})
+    } 
+    renderForecast(foreCast)
+};
+    function renderForecast(foreCast) {
+        foreCast.forEach(function({humanDateFormatDay, tempMax, tempMin, forecastWind, forecastHumidity}) {
+        // var fiveDayCards = $('#five-day-cards');
+        
+        const forecastCards = 
+        $(`<div class="card col">
+              <h6>${humanDateFormatDay}</h6>
+              <p>High: ${tempMax}</p>
+              <p>Low: ${tempMin}</p>
+              <p>Wind: ${forecastWind}</p>
+              <p>Humidity: ${forecastHumidity}</p>
+            </div>`)
+        fiveDayCards.append(forecastCards)
+        });
 
+        countClicks();
+    };
+    // counts the number of searches created and limits them.
+    function countClicks() {
+        var clickLimit = 10; //Max number of clicks
+        if(ClickCount <= clickLimit) {
+            ClickCount++;
+            storeInput();
+        }
+        else if(ClickCount > clickLimit) {
+            return;
+        }
+    }
+
+function storeInput () {
+    var priorSearches = $('#prior-searches');
+    var priorSearchesButton = $(`<button class="prior-search-items">${searchInput}</button>`);
+    priorSearches.append(priorSearchesButton);
+    localStorage.setItem("searches", searchInput);
+    // var items = items.slice(0, 4);
+    // for (let i = 1; i < 6; i++)
+    
+};
 
 searchButton.on('click', function () {
     searchInputField();
+    if (forecastCards = !undefined){
+        fiveDayCards.empty()
+    }
     // console.log(inputBox.val())
 });
 
 
-    // var latitude = searchInput.coord.lat
-    // var longitude = searchInput.coord.lon
-
-    // console.log(latitude)
-    // city.substring(0, city.length - 1);
-    // if (city.indexOf(',') > -1) {
-    //     var city1 = city.substring
-    //     console.log(city1)
-    // }
-   
-   
-    // fetch(requestUrl)
-    // .then(function (response) {
-    //     return response.json();
-    // })
-    // .then(function (data) {
-    //     fetchedData = data
-    //     console.log(data);
-    //     currentDayData(fetchedData)
-    // });
-    // could be fetchedData
-
-// weather[0].current
 
 // $( function() {
 //     var availableTags = [

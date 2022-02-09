@@ -54,7 +54,7 @@ h2 {
     /* width: 100%; */
 }
 
-.prior-searches {
+#prior-searches {
     display: flex;
     flex-direction: column;
     border: solid black 1px;
@@ -78,7 +78,7 @@ h2 {
     padding-left: 0;
 }
 
-.five-day-cards {
+#five-day-cards {
     display: flex;
     flex-wrap: wrap;
 }
