@@ -131,61 +131,66 @@ function applyCurrentDayData(fetchedCurrentData) {
     } 
     renderForecast(foreCast)
 };
-    function renderForecast(foreCast) {
-        foreCast.forEach(function({humanDateFormatDay, tempMax, tempMin, forecastWind, forecastHumidity, icon}) {
-        // var fiveDayCards = $('#five-day-cards');
-        
-        const forecastCards = 
-        $(`<div class="card card col">
-              <h6>${humanDateFormatDay}</h6>
-              <div class="weather-icon2"><img src="./assets/icons/${icon}.png"></div>
-              <p>High: ${tempMax}</p>
-              <p>Low: ${tempMin}</p>
-              <p>Wind: ${forecastWind}</p>
-              <p>Humidity: ${forecastHumidity}</p>
-            </div>`)
-        fiveDayCards.append(forecastCards)
-        });
+// renders the 5 day forecast cards
+function renderForecast(foreCast) {
+    foreCast.forEach(function({humanDateFormatDay, tempMax, tempMin, forecastWind, forecastHumidity, icon}) {
+    // var fiveDayCards = $('#five-day-cards');
+    
+    const forecastCards = 
+    $(`<div class="card card col">
+            <h6>${humanDateFormatDay}</h6>
+            <div class="weather-icon2"><img src="./assets/icons/${icon}.png"></div>
+            <p>High: ${tempMax}</p>
+            <p>Low: ${tempMin}</p>
+            <p>Wind: ${forecastWind}</p>
+            <p>Humidity: ${forecastHumidity}</p>
+        </div>`)
+    fiveDayCards.append(forecastCards)
+    });
 
-        storeInput();
-    };
-
-function storeInput () {
+    storeInputArray();
+};
+// stores inputs into an array
+function storeInputArray () {
     // searchInput = document.querySelector('input').value;
     // let storedInputs = []
-    if (storedInputs.length < 5) {
+    // if (storedInputs.length < 5) {
     storedInputs.push(searchInput);
     console.log(storedInputs)
-    } else if (storedInputs.length >= 5) {
-        storedInputsnumber++
-        if (storedInputsnumber <= 5) {
-        storedInputs.splice(storedInputsnumber,1, searchInput);
-        console.log(storedInputs)
-        } else {
-            storedInputsnumber = -1
-            storedInputs.splice(storedInputsnumber,1, searchInput);
-            console.log(storedInputs)
-        }
-    }
+    // }
+    // } else if (storedInputs.length >= 5) {
+    //     storedInputsnumber++
+    //     if (storedInputsnumber <= 5) {
+    //     storedInputs.splice(storedInputsnumber,1, searchInput);
+    //     console.log(storedInputs)
+    //     } else {
+    //         storedInputsnumber = -1
+    //         storedInputs.splice(storedInputsnumber,1, searchInput);
+    //         console.log(storedInputs)
+    //     }
+    // }
     storeInputsInLs()
     createSearchedButtons();
 }
 function createSearchedButtons () {
     var priorSearches = $('#prior-searches');
-    // for (i = 0; i < storedInputs.length; i++) {
     var priorSearchesButton = $(`<button class="prior-search-items">${searchInput}</button>`);
     var priorSearchesButtonEls = document.querySelectorAll('.prior-search-items');
-    if (priorSearchesButtonEls.length <= 5) {
+    // if (priorSearchesButtonEls.length <= 5) {
     priorSearches.append(priorSearchesButton)
-    }
-}
+    // }
 
+    // if (priorSearchesButtonEls >= 5) {
+    //     priorSearchesButtonEls.replace(priorSearchesButton);
+    // }
+}
+// stores inputs into local storage
 function storeInputsInLs (){
     localStorage.setItem("previousSearches", JSON.stringify(storedInputs));
     // 
        
 }
-
+// retrieves information stored in local storage
 function getStoredLs() { 
     var getPreviousSearches = JSON.parse(localStorage.getItem("previousSearches"))
     var priorSearches = $('#prior-searches');
