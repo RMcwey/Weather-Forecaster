@@ -1,7 +1,8 @@
-var inputBox = $('input')
-var searchButton = $('#search-btn')
+var inputBox = $('input');
+var searchButton = $('#search-btn');
+var clearButton = $('#clear-btn');
 var searchInput;
-var requestUrl = `https://api.openweathermap.org/data/2.5/weather?q=${searchInput}&units=imperial&appid=925aacac62e7fb2f553876f1d65a3104`
+var requestUrl = `https://api.openweathermap.org/data/2.5/weather?q=${searchInput}&units=imperial&appid=925aacac62e7fb2f553876f1d65a3104`;
 var fetchedData;
 var cityH4 = document.querySelector('h4');
 var currentTemp = document.querySelectorAll('p');
@@ -137,7 +138,7 @@ function applyCurrentDayData(fetchedCurrentData) {
         const forecastCards = 
         $(`<div class="card card col">
               <h6>${humanDateFormatDay}</h6>
-              <div class="weather-icon"><img src="./assets/icons/${icon}.png"></div>
+              <div class="weather-icon2"><img src="./assets/icons/${icon}.png"></div>
               <p>High: ${tempMax}</p>
               <p>Low: ${tempMin}</p>
               <p>Wind: ${forecastWind}</p>
@@ -220,4 +221,11 @@ searchButton.on('click', function () {
         fiveDayCards.empty()
     }
     // console.log(inputBox.val())
+})
+
+clearButton.on('click', function () {
+    // var prevSearchButtons = $('.prior-search-items')
+    // prevSearchButtons.empty();
+    localStorage.removeItem('previousSearches');
+    location.reload();
 })

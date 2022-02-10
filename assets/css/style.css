@@ -54,6 +54,14 @@ h2 {
     /* width: 100%; */
 }
 
+#clear-btn {
+    text-align: center;
+    border: solid black 1px;
+    background-image: linear-gradient(to left, red, #FFCCCC);
+    padding: 5px 125px;
+    margin: 8px;
+}
+
 #prior-searches {
     display: flex;
     flex-direction: column;
@@ -117,4 +125,9 @@ footer {
 
 .uv-red {
     background-color: red;
+}
+
+.weather-icon2 img {
+    height: 25px;
+    width: 25px;
 }
