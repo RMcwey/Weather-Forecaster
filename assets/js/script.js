@@ -12,27 +12,60 @@ var latitude;
 var longitude;
 var ClickCount = 1;
 var searchItem = 0;
+var city;
+var state;
+var cityState;
 
-loadSaved();
+let storedInputs = [];
+let storedInputsnumber = -1;
+let resultNum = 1;
+// var search1;
+// var search2; 
+// var search3; 
+// var search4; 
+// var search5; 
+// var search6; 
+// var search7; 
+// var search8; 
+// var search9;
+// var search10;
+
+// loadSaved();
+
+getStoredLs();
 
 function searchInputField () {
-    inputBox = 
     searchInput = document.querySelector('input').value;
     var splitWords = searchInput.split(",");
-    console.log(splitWords)
-    var city = splitWords[0].replace(/,/g, '');
-    var state = splitWords[1];
-    console.log(city);
-    console.log(state);
-    requestUrlLatLon = `https://api.openweathermap.org/geo/1.0/direct?q=${city},${state},{US}&appid=925aacac62e7fb2f553876f1d65a3104`;
+    // console.log(splitWords)
+    useSplitWords(splitWords);
+}
 
+function reloadPrevSearch (target0) {
+    searchInput = target0
+    console.log(searchInput);
+    var splitWords = searchInput.split(",");
+    useSplitWords(splitWords);
+}
+
+function useSplitWords(splitWords) {
+    city = splitWords[0].replace(/,/g, '');
+    state = splitWords[1];
+    cityState = city + state
+    // console.log(city);
+    // console.log(state);
+    requestUrlLatLon = `https://api.openweathermap.org/geo/1.0/direct?q=${city},${state},{US}&appid=925aacac62e7fb2f553876f1d65a3104`;
+    fetchLonLat(requestUrlLatLon);
+};
+
+function fetchLonLat(requestUrlLatLon) {
     fetch(requestUrlLatLon)
     .then(function (response) {
         return response.json();
     })
     .then(function (data) {
         fetchedData = data
-        console.log(data);
+        // console.log(data);
         latlonFunc(fetchedData)
     });
 
@@ -40,9 +73,9 @@ function searchInputField () {
 
 function latlonFunc (fetchedData) {
     latitude = fetchedData[0].lat
-    console.log(latitude)
+    // console.log(latitude)
     longitude = fetchedData[0].lon
-    console.log(longitude)
+    // console.log(longitude)
     getCurrentDayData();
 };
 
@@ -54,7 +87,7 @@ function getCurrentDayData () {
     })
     .then(function (data) {
         fetchedCurrentData = data
-        console.log(data);
+        // console.log(data);
         applyCurrentDayData(fetchedCurrentData)
     });
 };
@@ -63,14 +96,14 @@ function applyCurrentDayData(fetchedCurrentData) {
     // converts unix date given by api into mm/dd/yyyy 
 
     const unixTimestamp = fetchedCurrentData.current.dt
-    console.log(unixTimestamp)
+    // console.log(unixTimestamp)
     const event = new Date(unixTimestamp * 1000);
-    console.log(event)
+    // console.log(event)
     const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
     const humanDateFormat = event.toLocaleDateString(options)
 
-    console.log(humanDateFormat)
-    cityH4.textContent = "Current Weather: " + searchInput + " " + humanDateFormat;
+    // console.log(humanDateFormat)
+    cityH4.textContent = "Current Weather: " + cityState + " " + humanDateFormat;
     // fetchedCurrentData.current.dt (1644363812)
     var uviData = fetchedCurrentData.current.uvi
     currentTemp[0].innerHTML = "Temp: " + fetchedCurrentData.current.temp + "°F";
@@ -100,7 +133,7 @@ function applyCurrentDayData(fetchedCurrentData) {
         let forecastWind = day.wind_speed;
         let forecastHumidity = day.humidity;
         let cardNum = i;
-        console.log(cardNum)
+        // console.log(cardNum)
         foreCast.push({humanDateFormatDay, tempMax, tempMin, forecastWind, forecastHumidity, cardNum})
     } 
     renderForecast(foreCast)
@@ -120,223 +153,84 @@ function applyCurrentDayData(fetchedCurrentData) {
         fiveDayCards.append(forecastCards)
         });
 
-        countClicks();
+        storeInput();
     };
-    // counts the number of searches created and limits them.
-    function countClicks() {
-        var clickLimit = 10; //Max number of clicks
-        if(ClickCount <= clickLimit) {
-            ClickCount++;
-            storeInput();
-        }
-        else if(ClickCount > clickLimit) {
-            return;
-        }
-    }
 
 function storeInput () {
-    var search1 = localStorage.getItem('search1');
-    var search2 = localStorage.getItem('search2');
-    var search3 = localStorage.getItem('search3');
-    var search4 = localStorage.getItem('search4');
-    var search5 = localStorage.getItem('search5');
-    var search6 = localStorage.getItem('search6');
-    var search7 = localStorage.getItem('search7');
-    var search8 = localStorage.getItem('search8');
-    var search9 = localStorage.getItem('search9');
-    var search10 = localStorage.getItem('search10');
-
-    if (search1 == null){
-        
-        searchItem++;
-        var priorSearches = $('#prior-searches');
-        var priorSearchesButton = $(`<button class="prior-search-items" id="search${searchItem}">${searchInput}</button>`);
-        
-        priorSearches.append(priorSearchesButton);
-    } else if (search2 == null) {
-        searchItem = 1;
-        searchItem++;
-        var priorSearches = $('#prior-searches');
-        var priorSearchesButton = $(`<button class="prior-search-items" id="search${searchItem}">${searchInput}</button>`);
-    
-        priorSearches.append(priorSearchesButton);
-    } else if (search3 == null) {
-        searchItem = 2;
-        searchItem++;
-        var priorSearches = $('#prior-searches');
-        var priorSearchesButton = $(`<button class="prior-search-items" id="search${searchItem}">${searchInput}</button>`);
-    
-        priorSearches.append(priorSearchesButton);
-    } else if (search4 == null) {
-        searchItem = 3;
-        searchItem++;
-        var priorSearches = $('#prior-searches');
-        var priorSearchesButton = $(`<button class="prior-search-items" id="search${searchItem}">${searchInput}</button>`);
-    
-        priorSearches.append(priorSearchesButton); 
-    } else if (search5 == null) {
-        searchItem = 4;
-        searchItem++;
-        var priorSearches = $('#prior-searches');
-        var priorSearchesButton = $(`<button class="prior-search-items" id="search${searchItem}">${searchInput}</button>`);
-    
-        priorSearches.append(priorSearchesButton); 
-    } else if (search6 == null) {
-        searchItem = 5;
-        searchItem++;
-        var priorSearches = $('#prior-searches');
-        var priorSearchesButton = $(`<button class="prior-search-items" id="search${searchItem}">${searchInput}</button>`);
-    
-        priorSearches.append(priorSearchesButton); 
-    } else if (search7 == null) {
-        searchItem = 6;
-        searchItem++;
-        var priorSearches = $('#prior-searches');
-        var priorSearchesButton = $(`<button class="prior-search-items" id="search${searchItem}">${searchInput}</button>`);
-    
-        priorSearches.append(priorSearchesButton); 
-    } else if (search8 == null) {
-        searchItem = 7;
-        searchItem++;
-        var priorSearches = $('#prior-searches');
-        var priorSearchesButton = $(`<button class="prior-search-items" id="search${searchItem}">${searchInput}</button>`);
-    
-        priorSearches.append(priorSearchesButton); 
-    } else if (search9 == null) {
-        searchItem = 8;
-        searchItem++;
-        var priorSearches = $('#prior-searches');
-        var priorSearchesButton = $(`<button class="prior-search-items" id="search${searchItem}">${searchInput}</button>`);
-    
-        priorSearches.append(priorSearchesButton); 
-    } else if (search10 == null) {
-        searchItem = 9;
-        searchItem++;
-        var priorSearches = $('#prior-searches');
-        var priorSearchesButton = $(`<button class="prior-search-items" id="search${searchItem}">${searchInput}</button>`);
-    
-        priorSearches.append(priorSearchesButton); 
-    } else {
-        return
-    };
-    acutalStoreInput();
-};
-
-function acutalStoreInput () {
-    var searchItemClass1 = document.getElementById('search1')
-    var searchItemClass2 = document.getElementById('search2')
-    var searchItemClass3 = document.getElementById('search3')
-    var searchItemClass4 = document.getElementById('search4')
-    var searchItemClass5 = document.getElementById('search5')
-    var searchItemClass6 = document.getElementById('search6')
-    var searchItemClass7 = document.getElementById('search7')
-    var searchItemClass8 = document.getElementById('search8')
-    var searchItemClass9 = document.getElementById('search9')
-    var searchItemClass10 = document.getElementById('search10')
-    localStorage.setItem("search1", searchItemClass1.innerText);
-    localStorage.setItem("search2", searchItemClass2.innerText);
-    localStorage.setItem("search3", searchItemClass3.innerText);
-    localStorage.setItem("search4", searchItemClass4.innerText);
-    localStorage.setItem("search5", searchItemClass5.innerText);
-    localStorage.setItem("search6", searchItemClass6.innerText);
-    localStorage.setItem("search7", searchItemClass7.innerText);
-    localStorage.setItem("search8", searchItemClass8.innerText);
-    localStorage.setItem("search9", searchItemClass9.innerText);
-    localStorage.setItem("search10", searchItemClass10.innerText);
-
-};
-
-function loadSaved () {
+    // searchInput = document.querySelector('input').value;
+    // let storedInputs = []
+    if (storedInputs.length < 5) {
+    storedInputs.push(searchInput);
+    console.log(storedInputs)
+    } else if (storedInputs.length >= 5) {
+        storedInputsnumber++
+        if (storedInputsnumber <= 5) {
+        storedInputs.splice(storedInputsnumber,1, searchInput);
+        console.log(storedInputs)
+        } else {
+            storedInputsnumber = -1
+            storedInputs.splice(storedInputsnumber,1, searchInput);
+            console.log(storedInputs)
+        }
+    }
+    storeInputsInLs()
+    createSearchedButtons();
+}
+function createSearchedButtons () {
     var priorSearches = $('#prior-searches');
-    search1 = localStorage.getItem('search1')
-    search2 = localStorage.getItem('search2');
-    search3 = localStorage.getItem('search3');
-    search4 = localStorage.getItem('search4');
-    search5 = localStorage.getItem('search5');
-    search6 = localStorage.getItem('search6');
-    search7 = localStorage.getItem('search7');
-    search8 = localStorage.getItem('search8');
-    search9 = localStorage.getItem('search9');
-    search10 = localStorage.getItem('search10');
+    // for (i = 0; i < storedInputs.length; i++) {
+    var priorSearchesButton = $(`<button class="prior-search-items">${searchInput}</button>`);
+    var priorSearchesButtonEls = document.querySelectorAll('.prior-search-items');
+    if (priorSearchesButtonEls.length <= 5) {
+    priorSearches.append(priorSearchesButton)
+    }
+}
 
-    if (search1 !== null){
-        // var search1Key = localStorage.key('search1')
-    var priorSearchesButton = $(`<button class="prior-search-items" id="search1">${search1}</button>`);
-    priorSearches.append(priorSearchesButton);
-    };
+function storeInputsInLs (){
+    localStorage.setItem("previousSearches", JSON.stringify(storedInputs));
+    // 
+       
+}
 
-    if (search2 !== null){
-        // var search2Key = localStorage.key('search2')
-        var priorSearchesButton = $(`<button class="prior-search-items" id="search2">${search2}</button>`);
-        priorSearches.append(priorSearchesButton);
-    };
-
-    if (search3 !== null){
-        // var search2Key = localStorage.key('search2')
-        var priorSearchesButton = $(`<button class="prior-search-items" id="search3">${search3}</button>`);
-        priorSearches.append(priorSearchesButton);
-    };
-
-    if (search4 !== null){
-        // var search2Key = localStorage.key('search2')
-        var priorSearchesButton = $(`<button class="prior-search-items" id="search4">${search4}</button>`);
-        priorSearches.append(priorSearchesButton);
-    };
-
-    if (search5 !== null){
-        // var search2Key = localStorage.key('search2')
-        var priorSearchesButton = $(`<button class="prior-search-items" id="search5">${search5}</button>`);
-        priorSearches.append(priorSearchesButton);
-    };
-
-    if (search6 !== null){
-        // var search2Key = localStorage.key('search2')
-        var priorSearchesButton = $(`<button class="prior-search-items" id="search6">${search6}</button>`);
-        priorSearches.append(priorSearchesButton);
-    };
-
-    if (search7 !== null){
-        // var search2Key = localStorage.key('search2')
-        var priorSearchesButton = $(`<button class="prior-search-items" id="search7">${search7}</button>`);
-        priorSearches.append(priorSearchesButton);
-    };
-
-    if (search8 !== null){
-        // var search2Key = localStorage.key('search2')
-        var priorSearchesButton = $(`<button class="prior-search-items" id="search8">${search8}</button>`);
-        priorSearches.append(priorSearchesButton);
-    };
-
-    if (search9 !== null){
-        // var search2Key = localStorage.key('search2')
-        var priorSearchesButton = $(`<button class="prior-search-items" id="search9">${search9}</button>`);
-        priorSearches.append(priorSearchesButton);
-    };
-
-    if (search10 !== null){
-        // var search2Key = localStorage.key('search2')
-        var priorSearchesButton = $(`<button class="prior-search-items" id="search10">${search10}</button>`);
-        priorSearches.append(priorSearchesButton);
+function getStoredLs() { 
+    var getPreviousSearches = JSON.parse(localStorage.getItem("previousSearches"))
+    var priorSearches = $('#prior-searches');
+    // var priorSearchesButtonEls = document.querySelectorAll('.prior-search-items');
+    console.log(getPreviousSearches)
+    if (getPreviousSearches !== null) {
+        for (i = 0; i < getPreviousSearches.length; i++) {
+        var priorSearchesButton = $(`<button class="prior-search-items">${getPreviousSearches[i]}</button>`);
+        // if (priorSearchesButtonEls.length <= 5) {
+            priorSearches.append(priorSearchesButton)
+            // }
+        }
     } else {
         return
-    };
+    }
+}; 
 
-    // for (var i = 0; i < localStorage.length; i++) {
-    //     console.log(localStorage.getItem(localStorage.key(i)));
-    //   }
-    // // var search1Val = localStorage.getItem('search1').value;
+// var prevSearchButton = $('.prior-search-items')
+// var priorSearches = $('#prior-searches');
+// $(evt.target).text()
+$('#prior-searches').click(function(evt) {
+   var target0 = $(evt.target).text()
+    console.log(target0);
+    reloadPrevSearch(target0);
+    if (forecastCards = !undefined){
+        fiveDayCards.empty()
+    }
+});
 
-    
 
-    // document.getElementById('9AM').textContent = localStorage.getItem('text1');
-    // if ('text1' == null) {
-    //   document.getElementById('9AM').textContent = null;
-    // }
-};
+// prevSearchButton.on('click', function(event) {
+//     event.preventDefault()
 
+//     reloadPrevSearch();
+//     if (forecastCards = !undefined){
+//         fiveDayCards.empty()
+//     }
+// })
 
-// function getStoredInput
-// taking local storage and creating an if statement.
 
 searchButton.on('click', function () {
     searchInputField();
@@ -344,36 +238,4 @@ searchButton.on('click', function () {
         fiveDayCards.empty()
     }
     // console.log(inputBox.val())
-});
-
-
-
-// $( function() {
-//     var availableTags = [
-//       "ActionScript",
-//       "AppleScript",
-//       "Asp",
-//       "BASIC",
-//       "C",
-//       "C++",
-//       "Clojure",
-//       "COBOL",
-//       "ColdFusion",
-//       "Erlang",
-//       "Fortran",
-//       "Groovy",
-//       "Haskell",
-//       "Java",
-//       "JavaScript",
-//       "Lisp",
-//       "Perl",
-//       "PHP",
-//       "Python",
-//       "Ruby",
-//       "Scala",
-//       "Scheme"
-//     ];
-//     $( "#tags" ).autocomplete({
-//       source: availableTags
-//     });
-//   } );
+})
