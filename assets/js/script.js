@@ -19,18 +19,8 @@ var cityState;
 let storedInputs = [];
 let storedInputsnumber = -1;
 let resultNum = 1;
-// var search1;
-// var search2; 
-// var search3; 
-// var search4; 
-// var search5; 
-// var search6; 
-// var search7; 
-// var search8; 
-// var search9;
-// var search10;
 
-// loadSaved();
+let locationIcon = document.querySelector('.weather-icon');
 
 getStoredLs();
 
@@ -87,14 +77,16 @@ function getCurrentDayData () {
     })
     .then(function (data) {
         fetchedCurrentData = data
-        // console.log(data);
+        console.log(data);
         applyCurrentDayData(fetchedCurrentData)
     });
 };
 
 function applyCurrentDayData(fetchedCurrentData) {
     // converts unix date given by api into mm/dd/yyyy 
-
+    var icon = fetchedCurrentData.current.weather[0].icon;
+    console.log(icon)
+    // locationIcon.innerHTML = `<img src="./assets/icons/${icon}.png">;`;
     const unixTimestamp = fetchedCurrentData.current.dt
     // console.log(unixTimestamp)
     const event = new Date(unixTimestamp * 1000);
@@ -103,7 +95,7 @@ function applyCurrentDayData(fetchedCurrentData) {
     const humanDateFormat = event.toLocaleDateString(options)
 
     // console.log(humanDateFormat)
-    cityH4.textContent = "Current Weather: " + cityState + " " + humanDateFormat;
+    cityH4.innerHTML = "Current Weather: " + cityState + " " + humanDateFormat + `<div class="weather-icon"><img src="./assets/icons/${icon}.png"></div>`;
     // fetchedCurrentData.current.dt (1644363812)
     var uviData = fetchedCurrentData.current.uvi
     currentTemp[0].innerHTML = "Temp: " + fetchedCurrentData.current.temp + "°F";
@@ -132,19 +124,20 @@ function applyCurrentDayData(fetchedCurrentData) {
         let tempMin = day.temp.min;
         let forecastWind = day.wind_speed;
         let forecastHumidity = day.humidity;
-        let cardNum = i;
+        let icon = day.weather[0].icon;
         // console.log(cardNum)
-        foreCast.push({humanDateFormatDay, tempMax, tempMin, forecastWind, forecastHumidity, cardNum})
+        foreCast.push({humanDateFormatDay, tempMax, tempMin, forecastWind, forecastHumidity, icon})
     } 
     renderForecast(foreCast)
 };
     function renderForecast(foreCast) {
-        foreCast.forEach(function({humanDateFormatDay, tempMax, tempMin, forecastWind, forecastHumidity, cardNum}) {
+        foreCast.forEach(function({humanDateFormatDay, tempMax, tempMin, forecastWind, forecastHumidity, icon}) {
         // var fiveDayCards = $('#five-day-cards');
         
         const forecastCards = 
-        $(`<div class="card card${cardNum} col">
+        $(`<div class="card card col">
               <h6>${humanDateFormatDay}</h6>
+              <div class="weather-icon"><img src="./assets/icons/${icon}.png"></div>
               <p>High: ${tempMax}</p>
               <p>Low: ${tempMin}</p>
               <p>Wind: ${forecastWind}</p>
@@ -220,17 +213,6 @@ $('#prior-searches').click(function(evt) {
         fiveDayCards.empty()
     }
 });
-
-
-// prevSearchButton.on('click', function(event) {
-//     event.preventDefault()
-
-//     reloadPrevSearch();
-//     if (forecastCards = !undefined){
-//         fiveDayCards.empty()
-//     }
-// })
-
 
 searchButton.on('click', function () {
     searchInputField();
