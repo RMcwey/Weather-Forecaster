@@ -30,6 +30,7 @@ function searchInputField () {
     var splitWords = searchInput.split(",");
     // console.log(splitWords)
     useSplitWords(splitWords);
+    storeInputArray();
 }
 
 function reloadPrevSearch (target0) {
@@ -148,7 +149,7 @@ function renderForecast(foreCast) {
     fiveDayCards.append(forecastCards)
     });
 
-    storeInputArray();
+   
 };
 // stores inputs into an array
 function storeInputArray () {
@@ -157,18 +158,6 @@ function storeInputArray () {
     // if (storedInputs.length < 5) {
     storedInputs.push(searchInput);
     console.log(storedInputs)
-    // }
-    // } else if (storedInputs.length >= 5) {
-    //     storedInputsnumber++
-    //     if (storedInputsnumber <= 5) {
-    //     storedInputs.splice(storedInputsnumber,1, searchInput);
-    //     console.log(storedInputs)
-    //     } else {
-    //         storedInputsnumber = -1
-    //         storedInputs.splice(storedInputsnumber,1, searchInput);
-    //         console.log(storedInputs)
-    //     }
-    // }
     storeInputsInLs()
     createSearchedButtons();
 }
@@ -178,11 +167,6 @@ function createSearchedButtons () {
     var priorSearchesButtonEls = document.querySelectorAll('.prior-search-items');
     // if (priorSearchesButtonEls.length <= 5) {
     priorSearches.append(priorSearchesButton)
-    // }
-
-    // if (priorSearchesButtonEls >= 5) {
-    //     priorSearchesButtonEls.replace(priorSearchesButton);
-    // }
 }
 // stores inputs into local storage
 function storeInputsInLs (){
