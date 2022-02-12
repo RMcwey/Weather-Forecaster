@@ -156,6 +156,7 @@ function storeInputArray () {
     // searchInput = document.querySelector('input').value;
     // let storedInputs = []
     // if (storedInputs.length < 5) {
+    storedInputs = JSON.parse(localStorage.getItem("previousSearches"))
     storedInputs.push(searchInput);
     console.log(storedInputs)
     storeInputsInLs()
@@ -170,6 +171,7 @@ function createSearchedButtons () {
 }
 // stores inputs into local storage
 function storeInputsInLs (){
+    
     localStorage.setItem("previousSearches", JSON.stringify(storedInputs));
     // 
        
