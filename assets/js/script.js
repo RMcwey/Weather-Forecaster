@@ -26,28 +26,44 @@ let locationIcon = document.querySelector('.weather-icon');
 getStoredLs();
 
 function searchInputField () {
-    searchInput = document.querySelector('input').value;
+    var searchInputToUpper = document.querySelector('input').value;
+    searchInput = searchInputToUpper.toUpperCase();
+    if (searchInput.indexOf(',') != -1) {
     var splitWords = searchInput.split(",");
-    // console.log(splitWords)
     useSplitWords(splitWords);
     storeInputArray();
-}
+    } else {
+        splitWords = searchInput.split(" ");
+        useSplitWords(splitWords);
+        storeInputArray();
+    };
+};
 
 function reloadPrevSearch (target0) {
     searchInput = target0
-    console.log(searchInput);
+    if (searchInput.indexOf(',') != -1) {
     var splitWords = searchInput.split(",");
     useSplitWords(splitWords);
+    } else {
+    splitWords = searchInput.split(" ");
+    useSplitWords(splitWords);
+    }
 }
 
 function useSplitWords(splitWords) {
+    if (splitWords.indexOf(',') != -1) {
     city = splitWords[0].replace(/,/g, '');
     state = splitWords[1];
     cityState = city + state
-    // console.log(city);
-    // console.log(state);
     requestUrlLatLon = `https://api.openweathermap.org/geo/1.0/direct?q=${city},${state},{US}&appid=925aacac62e7fb2f553876f1d65a3104`;
     fetchLonLat(requestUrlLatLon);
+    } else {
+        city = splitWords[0];
+        state = splitWords[1];
+        cityState = city + ", " + state;
+        requestUrlLatLon = `https://api.openweathermap.org/geo/1.0/direct?q=${city},${state},{US}&appid=925aacac62e7fb2f553876f1d65a3104`;
+        fetchLonLat(requestUrlLatLon);
+    };
 };
 
 function fetchLonLat(requestUrlLatLon) {
@@ -56,18 +72,15 @@ function fetchLonLat(requestUrlLatLon) {
         return response.json();
     })
     .then(function (data) {
-        fetchedData = data
-        // console.log(data);
-        latlonFunc(fetchedData)
+        fetchedData = data;
+        latlonFunc(fetchedData);
     });
 
 };
 
 function latlonFunc (fetchedData) {
-    latitude = fetchedData[0].lat
-    // console.log(latitude)
-    longitude = fetchedData[0].lon
-    // console.log(longitude)
+    latitude = fetchedData[0].lat;
+    longitude = fetchedData[0].lon;
     getCurrentDayData();
 };
 
@@ -78,28 +91,21 @@ function getCurrentDayData () {
         return response.json();
     })
     .then(function (data) {
-        fetchedCurrentData = data
-        console.log(data);
-        applyCurrentDayData(fetchedCurrentData)
+        fetchedCurrentData = data;
+        applyCurrentDayData(fetchedCurrentData);
     });
 };
 
 function applyCurrentDayData(fetchedCurrentData) {
     // converts unix date given by api into mm/dd/yyyy 
     var icon = fetchedCurrentData.current.weather[0].icon;
-    console.log(icon)
-    // locationIcon.innerHTML = `<img src="./assets/icons/${icon}.png">;`;
-    const unixTimestamp = fetchedCurrentData.current.dt
-    // console.log(unixTimestamp)
+    const unixTimestamp = fetchedCurrentData.current.dt;
     const event = new Date(unixTimestamp * 1000);
-    // console.log(event)
     const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
-    const humanDateFormat = event.toLocaleDateString(options)
+    const humanDateFormat = event.toLocaleDateString(options);
 
-    // console.log(humanDateFormat)
     cityH4.innerHTML = "Current Weather: " + cityState + " " + humanDateFormat + `<div class="weather-icon"><img src="./assets/icons/${icon}.png"></div>`;
-    // fetchedCurrentData.current.dt (1644363812)
-    var uviData = fetchedCurrentData.current.uvi
+    var uviData = fetchedCurrentData.current.uvi;
     currentTemp[0].innerHTML = "Temp: " + fetchedCurrentData.current.temp + "°F";
     currentTemp[1].innerHTML = "Wind: " + fetchedCurrentData.current.wind_speed + " MPH";
     currentTemp[2].innerHTML = "Humidity: " + fetchedCurrentData.current.humidity + " %";
@@ -108,12 +114,12 @@ function applyCurrentDayData(fetchedCurrentData) {
     if (uviData < 3) {
         uvi.classList.add("uv-green");
     } else if (uviData < 6) {
-        uvi.classList.add("uv-yellow")
+        uvi.classList.add("uv-yellow");
     } else if (uviData < 8) {
-        uvi.classList.add("uv-orange")
+        uvi.classList.add("uv-orange");
     } else {
-        uvi.classList.add("uv-red")
-    }
+        uvi.classList.add("uv-red");
+    };
 
     let foreCast = []
     for (let i = 1; i < 6; i++) {
@@ -127,16 +133,14 @@ function applyCurrentDayData(fetchedCurrentData) {
         let forecastWind = day.wind_speed;
         let forecastHumidity = day.humidity;
         let icon = day.weather[0].icon;
-        // console.log(cardNum)
-        foreCast.push({humanDateFormatDay, tempMax, tempMin, forecastWind, forecastHumidity, icon})
-    } 
-    renderForecast(foreCast)
+        foreCast.push({humanDateFormatDay, tempMax, tempMin, forecastWind, forecastHumidity, icon});
+    };
+    renderForecast(foreCast);
 };
+
 // renders the 5 day forecast cards
 function renderForecast(foreCast) {
     foreCast.forEach(function({humanDateFormatDay, tempMax, tempMin, forecastWind, forecastHumidity, icon}) {
-    // var fiveDayCards = $('#five-day-cards');
-    
     const forecastCards = 
     $(`<div class="card card col">
             <h6>${humanDateFormatDay}</h6>
@@ -145,83 +149,63 @@ function renderForecast(foreCast) {
             <p>Low: ${tempMin}</p>
             <p>Wind: ${forecastWind}</p>
             <p>Humidity: ${forecastHumidity}</p>
-        </div>`)
-    fiveDayCards.append(forecastCards)
+        </div>`);
+    fiveDayCards.append(forecastCards);
     });
-
-   
 };
 
 
 // stores inputs into an array
 function storeInputArray () {
-    // searchInput = document.querySelector('input').value;
-    // let storedInputs = []
-    // if (storedInputs.length < 5) {
-    // storedInputs = JSON.parse(localStorage.getItem("previousSearches"))
     storedInputs.push(searchInput);
-    storeInputsInLs()
+    storeInputsInLs();
     createSearchedButtons();
-}
-    // console.log(storedInputs)
-    // storeInputsInLs()
-    // createSearchedButtons();
+};
+
 function createSearchedButtons () {
     var priorSearches = $('#prior-searches');
-    var priorSearchesButton = $(`<button class="prior-search-items">${searchInput}</button>`);
+    var priorSearchesButton = $(`<button class="prior-search-items">${cityState}</button>`);
     var priorSearchesButtonEls = document.querySelectorAll('.prior-search-items');
-    // if (priorSearchesButtonEls.length <= 5) {
-    priorSearches.append(priorSearchesButton)
-}
+    priorSearches.append(priorSearchesButton);
+};
+
 // stores inputs into local storage
 function storeInputsInLs (){
     
     localStorage.setItem("previousSearches", JSON.stringify(storedInputs));
-    // 
-       
-}
+};
+
 // retrieves information stored in local storage
 function getStoredLs() { 
-    var getPreviousSearches = JSON.parse(localStorage.getItem("previousSearches"))
+    var getPreviousSearches = JSON.parse(localStorage.getItem("previousSearches"));
     var priorSearches = $('#prior-searches');
-    // var priorSearchesButtonEls = document.querySelectorAll('.prior-search-items');
-    console.log(getPreviousSearches)
     if (getPreviousSearches !== null) {
         for (i = 0; i < getPreviousSearches.length; i++) {
         var priorSearchesButton = $(`<button class="prior-search-items">${getPreviousSearches[i]}</button>`);
-        // if (priorSearchesButtonEls.length <= 5) {
-            priorSearches.append(priorSearchesButton)
+            priorSearches.append(priorSearchesButton);
             storedInputs.push(getPreviousSearches[i]);
-            // }
         }
     } else {
-        return
-    }
+        return;
+    };
 }; 
 
-// var prevSearchButton = $('.prior-search-items')
-// var priorSearches = $('#prior-searches');
-// $(evt.target).text()
 $('#prior-searches').click(function(evt) {
-   var target0 = $(evt.target).text()
-    console.log(target0);
+   var target0 = $(evt.target).text();
     reloadPrevSearch(target0);
     if (forecastCards = !undefined){
-        fiveDayCards.empty()
-    }
+        fiveDayCards.empty();
+    };
 });
 
 searchButton.on('click', function () {
     searchInputField();
     if (forecastCards = !undefined){
-        fiveDayCards.empty()
-    }
-    // console.log(inputBox.val())
-})
+        fiveDayCards.empty();
+    };
+});
 
 clearButton.on('click', function () {
-    // var prevSearchButtons = $('.prior-search-items')
-    // prevSearchButtons.empty();
     localStorage.removeItem('previousSearches');
     location.reload();
-})
+});
