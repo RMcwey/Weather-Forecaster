@@ -151,6 +151,8 @@ function renderForecast(foreCast) {
 
    
 };
+
+
 // stores inputs into an array
 function storeInputArray () {
     // searchInput = document.querySelector('input').value;
@@ -158,10 +160,12 @@ function storeInputArray () {
     // if (storedInputs.length < 5) {
     // storedInputs = JSON.parse(localStorage.getItem("previousSearches"))
     storedInputs.push(searchInput);
-    console.log(storedInputs)
     storeInputsInLs()
     createSearchedButtons();
 }
+    // console.log(storedInputs)
+    // storeInputsInLs()
+    // createSearchedButtons();
 function createSearchedButtons () {
     var priorSearches = $('#prior-searches');
     var priorSearchesButton = $(`<button class="prior-search-items">${searchInput}</button>`);
@@ -187,6 +191,7 @@ function getStoredLs() {
         var priorSearchesButton = $(`<button class="prior-search-items">${getPreviousSearches[i]}</button>`);
         // if (priorSearchesButtonEls.length <= 5) {
             priorSearches.append(priorSearchesButton)
+            storedInputs.push(getPreviousSearches[i]);
             // }
         }
     } else {
