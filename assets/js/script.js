@@ -156,7 +156,7 @@ function storeInputArray () {
     // searchInput = document.querySelector('input').value;
     // let storedInputs = []
     // if (storedInputs.length < 5) {
-    storedInputs = JSON.parse(localStorage.getItem("previousSearches"))
+    // storedInputs = JSON.parse(localStorage.getItem("previousSearches"))
     storedInputs.push(searchInput);
     console.log(storedInputs)
     storeInputsInLs()
