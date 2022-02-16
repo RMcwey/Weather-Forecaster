@@ -165,7 +165,7 @@ function renderForecast(foreCast) {
 
 // stores inputs into an array
 function storeInputArray () {
-    storedInputs.push(searchInput);
+    storedInputs.push(cityState);
     storeInputsInLs();
     createSearchedButtons();
 };
