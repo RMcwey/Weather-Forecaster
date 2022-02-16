@@ -29,16 +29,24 @@ function searchInputField () {
     var searchInputToUpper = document.querySelector('input').value;
     searchInput = searchInputToUpper.toUpperCase();
     if (searchInput.indexOf(',') != -1) {
-    var splitWords = searchInput.split(",");
-    useSplitWords(splitWords);
-    storeInputArray();
-    } else {
-        splitWords = searchInput.split(" ");
+        var splitWords = searchInput.split(",");
         useSplitWords(splitWords);
         storeInputArray();
+    } else {
+        splitWords = searchInput.split(" ");
+        if (splitWords.length > 2) {
+            var statePop = splitWords.pop()
+            var cityPop = splitWords.join(" ")
+            splitWords = [cityPop, statePop]
+            useSplitWords(splitWords);
+            storeInputArray();
+        } else {    
+        useSplitWords(splitWords);
+        storeInputArray();
+        }
     };
-};
 
+};
 function reloadPrevSearch (target0) {
     searchInput = target0
     if (searchInput.indexOf(',') != -1) {
@@ -54,7 +62,7 @@ function useSplitWords(splitWords) {
     if (splitWords.indexOf(',') != -1) {
     city = splitWords[0].replace(/,/g, '');
     state = splitWords[1];
-    cityState = city + state
+    cityState = city + ", " + state;
     requestUrlLatLon = `https://api.openweathermap.org/geo/1.0/direct?q=${city},${state},{US}&appid=925aacac62e7fb2f553876f1d65a3104`;
     fetchLonLat(requestUrlLatLon);
     } else {
