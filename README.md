@@ -10,3 +10,11 @@ I am the sole developer and creator of the project. I am responsible for all of 
 
 ### 4.Link
 https://rmcwey.github.io/Weather-Forecaster/
+
+### 5. Technologies Used
+* HTML
+* CSS
+* JavaScript
+* Open Weather API
+* BootStrap
+* JQuery
