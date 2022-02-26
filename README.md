@@ -19,6 +19,8 @@ https://rmcwey.github.io/Weather-Forecaster/
 * BootStrap
 * JQuery
 
+### MIT License
+
 Copyright (c) [2022] [Ross McWey]
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
