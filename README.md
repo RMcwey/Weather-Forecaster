@@ -19,6 +19,13 @@ https://rmcwey.github.io/Weather-Forecaster/
 * BootStrap
 * JQuery
 
+
+### 6. Contact info 
+Ross McWey
+(678) 977-0174
+rmcwey@hotmail.com
+
+
 ### MIT License
 
 Copyright (c) [2022] [Ross McWey]
